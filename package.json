@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/DenisDimitriy/Lern-Node-JS#readme",
   "dependencies": {
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.0",
+    "handlebars": "^4.0.12",
     "lodash": "^4.17.11"
   },
   "devDependencies": {

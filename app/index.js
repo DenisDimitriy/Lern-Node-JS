@@ -1,12 +1,24 @@
-// const calc = require('./calc')
-// const numbersToAdd = [
-//     3,
-//     4,
-//     10,
-//     2
-// ]
-// const result = calc.sum(numbersToAdd)
-// console.log(`The result is: ${result}`)
+// index.js
+const path = require('path')
+const express = require('express')
+const exphbs = require('express-handlebars')
 
-const _ = require('lodash')
-_.assign({ 'a': 1 }, { 'b': 2 }, { 'c': 3 });
+const app = express()
+
+app.engine('.hbs', exphbs({
+    defaultLayout: 'main',
+    extname: '.hbs',
+    layoutsDir: path.join(__dirname, 'views/layouts')
+}))
+
+app.set('view engine', '.hbs')
+
+app.set('views', path.join(__dirname, 'views'))
+
+app.get('/', (request, response) => {
+    response.render('home', {
+        name: 'Denis'
+    })
+})
+
+app.listen(3000)
