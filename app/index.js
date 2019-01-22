@@ -1,24 +1,34 @@
-// index.js
-const path = require('path')
-const express = require('express')
-const exphbs = require('express-handlebars')
+// var http = require('http');
+// http.createServer(function (request, response) {
+//     response.writeHead(200, {'Content-Type': 'text/plain'});
+//     response.end('Hello Denis\n');
+// }).listen(8124);
 
-const app = express()
+// console.log('Server running at http://127.0.0.1:8124/');
 
-app.engine('.hbs', exphbs({
-    defaultLayout: 'main',
-    extname: '.hbs',
-    layoutsDir: path.join(__dirname, 'views/layouts')
-}))
+var http = require('http');
+var fs = require('fs');
 
-app.set('view engine', '.hbs')
-
-app.set('views', path.join(__dirname, 'views'))
-
-app.get('/', (request, response) => {
-    response.render('home', {
-        name: 'Denis'
-    })
-})
-
-app.listen(3000)
+http.createServer(function (req, res) {
+    var name = require('url').parse(req.url, true).query.name;
+    if (name === undefined) name = 'world';
+    if (name == 'burningbird') {
+        var file = 'phoenix5a.png';
+        fs.stat(file, function (err, stat) {
+            if (err) {
+                console.error(err);
+                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                res.end("Sorry, Burningbird isn't around right now \n");
+            } else {
+                var img = fs.readFileSync(file);
+                res.contentType = 'image/png';
+                res.contentLength = stat.size;
+                res.end(img, 'binary');
+            }
+        });
+    } else {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Hello ' + name + '\n');
+    }
+}).listen(8124);
+console.log('Server running at port 8124/');
